@@ -18,10 +18,16 @@ namespace CreateDbFromScratch.Models
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<PokemonCategory> PokemonCategories { get; set; }
+
+        public DbSet<PokemonOwner> PokemonOwners { get; set; }
+
 
         public SchoolContext(DbContextOptions options) : base(options)
         {
            
         }
+
+       
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace PokemonReviewApp.Models
+﻿using CreateDbFromScratch.Models;
+
+namespace PokemonReviewApp.Models
 {
     public class Owner
     {
@@ -8,6 +10,8 @@
         public string Gym { get; set; }
 
         public Country Country { get; set; }
+
+        public ICollection<PokemonOwner> PokemonOwners { get; set; }
 
     }
 }
