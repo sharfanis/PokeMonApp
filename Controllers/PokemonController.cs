@@ -1,4 +1,5 @@
-﻿using CreateDbFromScratch.Repository;
+﻿using CreateDbFromScratch.Interfaces;
+using CreateDbFromScratch.Repository;
 using Microsoft.AspNetCore.Mvc;
 using PokemonReviewApp.Models;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
@@ -10,9 +11,9 @@ namespace CreateDbFromScratch.Controllers
 
     public class PokemonController : Controller
     {
-        private readonly PokemonRepository _pokemonRepository;
+        private readonly IPokemonRepository _pokemonRepository;
 
-        public PokemonController(PokemonRepository pokemonRepository)
+        public PokemonController(IPokemonRepository pokemonRepository)
         {
             _pokemonRepository = pokemonRepository;
         }

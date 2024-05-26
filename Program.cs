@@ -1,6 +1,12 @@
+using CreateDbFromScratch.Controllers;
 using CreateDbFromScratch.Data;
+using CreateDbFromScratch.Interfaces;
+using CreateDbFromScratch.Repository;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using PokemonReviewApp;
+using System.Reflection;
 
 namespace CreateDbFromScratch
 {
@@ -15,7 +21,11 @@ namespace CreateDbFromScratch
             builder.Services.AddControllers();
             //Adding Seed Data
             builder.Services.AddTransient<Seed>();
+            builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
+
             builder.Services.AddRazorPages();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<SchoolContext>(options =>
             {
@@ -40,15 +50,35 @@ namespace CreateDbFromScratch
                 }
             }
 
+            app.MapControllers();
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = string.Empty;
+                options.DocumentTitle = "My Swagger";
+            });
+
+
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
+
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                    options.RoutePrefix = string.Empty;
+                    options.DocumentTitle = "My Swagger";
+                });
+
                 app.UseExceptionHandler("/Error");
                     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
